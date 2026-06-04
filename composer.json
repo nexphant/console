@@ -10,7 +10,8 @@
     },
     "require": {
         "php": "^8.1",
-        "nexph/runtime": "^0.1"
+        "nexph/runtime": "^0.1",
+        "nexph/queue": "^0.1"
     },
     "minimum-stability": "dev",
     "prefer-stable": true
