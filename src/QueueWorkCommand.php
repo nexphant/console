@@ -10,7 +10,7 @@
  */
 namespace Nexph\Console;
 
-use Nexph\Runtime\Queue\QueueFactory;
+use Nexph\Queue\QueueFactory;
 use Nexph\Runtime\Observability\RuntimeMetrics;
 use Nexph\Runtime\Observability\HealthMonitor;
 use Nexph\Runtime\Observability\Dashboard;
