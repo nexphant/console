@@ -46,6 +46,9 @@ class RuntimeDoctorCommand extends Command
         echo "\nSelected drivers:\n";
         $loop = EventLoopFactory::create();
         echo "  Event Loop: " . $this->getShortClassName($loop) . "\n";
+        
+        $socket = \Nexph\Server\Socket\SocketDriverFactory::create();
+        echo "  Socket: " . $this->getShortClassName($socket) . "\n";
 
         $capabilities = ExtensionDetector::capabilities();
         echo "\nCapabilities:\n";
