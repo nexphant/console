@@ -69,26 +69,27 @@ class RuntimeDoctorCommand extends Command
         $missing = [];
         
         if (!ExtensionDetector::has('event')) {
-            $missing[] = 'ext-event - Better event loop performance';
+            $missing[] = ['ext-event', 'Better event loop performance', 'pecl install event'];
         }
         
         if (!ExtensionDetector::has('sockets')) {
-            $missing[] = 'ext-sockets - Native socket options and UDP support';
+            $missing[] = ['ext-sockets', 'Native socket options and UDP support', 'apt install php-sockets / yum install php-sockets'];
         }
         
         if (!ExtensionDetector::has('apcu')) {
-            $missing[] = 'ext-apcu - Fast local cache';
+            $missing[] = ['ext-apcu', 'Fast local cache', 'pecl install apcu'];
         }
         
         if (!ExtensionDetector::has('sysvsem')) {
-            $missing[] = 'ext-sysvsem - IPC semaphores';
+            $missing[] = ['ext-sysvsem', 'IPC semaphores', 'apt install php-sysvmsg / yum install php-process'];
         }
         
         if (empty($missing)) {
             echo "  All recommended extensions installed\n";
         } else {
-            foreach ($missing as $item) {
-                echo "  - $item\n";
+            foreach ($missing as [$ext, $desc, $install]) {
+                echo "  - $ext: $desc\n";
+                echo "    Install: $install\n";
             }
         }
     }
