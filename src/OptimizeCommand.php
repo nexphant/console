@@ -16,7 +16,7 @@ class OptimizeCommand extends Command
         $storagePath = (string) ($parsed['options']['storage'] ?? (getcwd() . '/storage'));
         $files = $this->getSourceFiles(getcwd());
 
-        (new OptimizeCompiler($storagePath))->compile();
+        (new OptimizeCompiler($storagePath))->compile($files);
         (new OptimizeManifest($storagePath))->save($files);
         $this->output('Optimized.');
 
