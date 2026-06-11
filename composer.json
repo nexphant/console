@@ -10,8 +10,8 @@
     },
     "require": {
         "php": "^8.1",
-        "nexph/framework": "^0.1",
-        "nexph/observability": "^0.1"
+        "nexph/framework": "^0.0",
+        "nexph/observability": "^0.0"
     },
     "minimum-stability": "dev",
     "prefer-stable": true
