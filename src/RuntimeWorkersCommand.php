@@ -18,12 +18,24 @@ class RuntimeWorkersCommand extends Command {
 
     public function execute(array $args = []): int {
         $parsed = $this->parseArgs($args);
-        $state = RuntimeState::snapshot($parsed['options']['driver'] ?? null);
+        $state = RuntimeState::snapshot($parsed['options']['driver'] ?? null, $parsed['options']);
+        $server = $state['server'];
         if (isset($parsed['options']['json'])) {
-            echo json_encode(['workers' => $state['queue']['workers'], 'queue' => $state['queue'], 'runtime' => $state['runtime']], JSON_PRETTY_PRINT) . "\n";
+            echo json_encode(['server' => $server, 'queue' => $state['queue'], 'runtime' => $state['runtime']], JSON_PRETTY_PRINT) . "\n";
             return 0;
         }
-        echo sprintf("workers=%d active_fibers=%d active_timers=%d mode=%s queue=%d running=%s\n", $state['queue']['workers'], $state['gauges']['active_fibers'], $state['gauges']['active_timers'], $state['runtime']['mode'], $state['queue']['depth'], $state['queue']['running'] ? 'yes' : 'no');
+        echo sprintf(
+            "http_workers=%d/%d pids=%s active_connections=%d active_requests=%d loop_timers=%d queue_workers=%d queue=%d running=%s\n",
+            $server['workers_reporting'],
+            $server['worker_count'],
+            $server['pids'] === [] ? '-' : implode(',', $server['pids']),
+            $server['active_connections'],
+            $server['active_requests'],
+            $server['loop']['timers'],
+            $state['queue']['workers'],
+            $state['queue']['depth'],
+            $server['running'] ? 'yes' : 'no'
+        );
         return 0;
     }
 }

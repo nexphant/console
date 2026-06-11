@@ -27,9 +27,9 @@ class RuntimeMetricsCommand extends Command {
         try {
             $metrics = new RuntimeMetrics();
             if ($watch) {
-                $this->watchMetrics($metrics, $interval, $json, $driver);
+                $this->watchMetrics($metrics, $interval, $json, $driver, $options);
             } else {
-                $this->displayMetrics($metrics, $json, $driver);
+                $this->displayMetrics($metrics, $json, $driver, $options);
             }
             return 0;
         } catch (\Throwable $e) {
@@ -38,8 +38,8 @@ class RuntimeMetricsCommand extends Command {
         }
     }
 
-    private function displayMetrics(RuntimeMetrics $metrics, bool $json, ?string $driver = null): void {
-        $data = RuntimeState::snapshot($driver);
+    private function displayMetrics(RuntimeMetrics $metrics, bool $json, ?string $driver = null, array $options = []): void {
+        $data = RuntimeState::snapshot($driver, $options);
         if ($json) {
             echo json_encode($data, JSON_PRETTY_PRINT) . "\n";
             return;
@@ -48,18 +48,19 @@ class RuntimeMetricsCommand extends Command {
         $this->output('RUNTIME METRICS');
         $this->output(str_repeat('=', 60));
         $this->output('Mode: ' . $data['runtime']['mode'] . ' | Degradation: ' . $data['runtime']['degradation_state']);
+        $this->output('HTTP: running=' . ($data['server']['running'] ? 'yes' : 'no') . ' workers=' . $data['server']['workers_reporting'] . '/' . $data['server']['worker_count'] . ' requests=' . $data['server']['total_requests'] . ' active_connections=' . $data['server']['active_connections']);
         $this->output('Queue: depth=' . $data['queue']['depth'] . ' dlq=' . $data['queue']['dead_letters'] . ' workers=' . $data['queue']['workers']);
-        $this->output('Uptime: ' . gmdate('H:i:s', (int)$data['uptime']));
+        $this->output('Uptime: ' . gmdate('H:i:s', (int)max($data['uptime'], $data['server']['uptime'])));
         $this->output('Memory: ' . $data['computed']['memory_usage_mb'] . ' MB peak=' . $data['computed']['memory_peak_mb'] . ' MB');
         $this->output('CPU: ' . implode(', ', array_map(fn($v) => number_format((float)$v, 2), $data['system']['cpu_load'])));
         $this->output('Loop lag: ' . $data['gauges']['loop_lag_ms'] . ' ms | Fibers: ' . $data['gauges']['active_fibers'] . ' | Timers: ' . $data['gauges']['active_timers']);
         $this->output('Throughput: ' . number_format($data['computed']['throughput'], 2) . '/s | Failed: ' . $data['counters']['jobs_failed'] . ' | Retries: ' . $data['counters']['jobs_retried']);
     }
 
-    private function watchMetrics(RuntimeMetrics $metrics, int $interval, bool $json, ?string $driver = null): void {
+    private function watchMetrics(RuntimeMetrics $metrics, int $interval, bool $json, ?string $driver = null, array $options = []): void {
         while (true) {
             if (!$json) echo "\033[2J\033[H";
-            $this->displayMetrics($metrics, $json, $driver);
+            $this->displayMetrics($metrics, $json, $driver, $options);
             if (!$json) $this->output("Refreshing every {$interval}s... (Ctrl+C to stop)");
             sleep($interval);
         }

@@ -42,7 +42,7 @@ class QueueClearCommand extends Command {
                 return 1;
             }
             
-            // Clear implementation would go here
+            $queue->driver()->clear();
             $this->output("Cleared {$depth} jobs from queue.");
             
             return 0;

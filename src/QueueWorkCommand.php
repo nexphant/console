@@ -60,7 +60,9 @@ class QueueWorkCommand extends Command {
             
             $this->registerHandlers($queue, $quiet);
             
-            if ($dashboard) {
+            if ($maxIterations > 0) {
+                $this->runLimited($queue, $maxIterations, $sleep);
+            } elseif ($dashboard) {
                 $this->runWithDashboard($queue, $dashboardObj, $maxIterations);
             } else {
                 $this->runSimple($queue, $maxIterations);
@@ -100,6 +102,15 @@ class QueueWorkCommand extends Command {
     private function runSimple($queue, int $maxIterations): void {
         $this->output("Starting worker (blocking mode, pid: " . getmypid() . ")...");
         $queue->work();
+    }
+
+    private function runLimited($queue, int $maxIterations, float $sleep): void {
+        $this->output("Starting worker (limited mode, pid: " . getmypid() . ")...");
+        for ($i = 0; $i < $maxIterations; $i++) {
+            if (!$queue->workOnce(1)) {
+                usleep((int)($sleep * 1_000_000));
+            }
+        }
     }
     
     private function runWithDashboard($queue, Dashboard $dashboard, int $maxIterations): void {

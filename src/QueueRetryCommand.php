@@ -31,12 +31,18 @@ class QueueRetryCommand extends Command {
             $queue = QueueFactory::create($driver);
             
             if ($all) {
-                $this->output("Retrying all failed jobs...");
-                // Retry all implementation
-                $this->output("All failed jobs queued for retry.");
+                $retried = 0;
+                foreach ($queue->failed(1000) as $job) {
+                    if ($queue->retry($job->id)) {
+                        $retried++;
+                    }
+                }
+                $this->output("Retried {$retried} failed jobs.");
             } elseif ($jobId) {
-                $this->output("Retrying job {$jobId}...");
-                // Retry single job implementation
+                if (!$queue->retry($jobId)) {
+                    $this->error("Error: Failed job {$jobId} not found");
+                    return 1;
+                }
                 $this->output("Job {$jobId} queued for retry.");
             } else {
                 $this->error("Error: Specify job ID or use --all");
