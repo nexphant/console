@@ -3,7 +3,7 @@
 /**
  * This file is part of the Nexph Framework.
  *
- * (c) Nexphlabs <https://github.com/nexphlabs>
+ * (c) nexphant <https://github.com/nexphant>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,46 +14,52 @@ namespace Nexph\Console;
  * Runtime CLI command system.
  * Provides commands for queue management, runtime control, and metrics.
  */
-class CommandRegistry {
+class CommandRegistry
+{
     private array $commands = [];
-    
-    public function __construct() {
+
+    public function __construct()
+    {
         $this->registerDefaultCommands();
     }
-    
+
     /**
      * Register a command.
      */
-    public function register(string $name, Command $command): void {
+    public function register(string $name, Command $command): void
+    {
         $this->commands[$name] = $command;
     }
-    
+
     /**
      * Get command by name.
      */
-    public function get(string $name): ?Command {
+    public function get(string $name): ?Command
+    {
         return $this->commands[$name] ?? null;
     }
-    
+
     /**
      * Get all commands.
      */
-    public function all(): array {
+    public function all(): array
+    {
         return $this->commands;
     }
-    
+
     /**
      * Execute command.
      */
-    public function execute(string $name, array $args = []): int {
+    public function execute(string $name, array $args = []): int
+    {
         $command = $this->get($name);
-        
+
         if ($command === null) {
             fwrite(STDERR, "Error: Unknown command '{$name}'\n");
             fwrite(STDERR, "Run 'nexph help' to see available commands\n");
             return 1;
         }
-        
+
         try {
             return $command->execute($args);
         } catch (\Throwable $e) {
@@ -61,11 +67,12 @@ class CommandRegistry {
             return 1;
         }
     }
-    
+
     /**
      * Register default commands.
      */
-    private function registerDefaultCommands(): void {
+    private function registerDefaultCommands(): void
+    {
         $this->register('help', new HelpCommand($this));
         $this->register('optimize', new OptimizeCommand());
         $this->register('optimize:clear', new OptimizeClearCommand());

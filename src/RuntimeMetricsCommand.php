@@ -3,7 +3,7 @@
 /**
  * This file is part of the Nexph Framework.
  *
- * (c) Nexphlabs <https://github.com/nexphlabs>
+ * (c) nexphant <https://github.com/nexphant>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -13,16 +13,18 @@ namespace Nexph\Console;
 use Nexph\Runtime\Observability\RuntimeMetrics;
 use Nexph\Runtime\Observability\RuntimeState;
 
-class RuntimeMetricsCommand extends Command {
+class RuntimeMetricsCommand extends Command
+{
     protected string $name = 'runtime:metrics';
     protected string $description = 'Display runtime metrics';
 
-    public function execute(array $args = []): int {
+    public function execute(array $args = []): int
+    {
         $parsed = $this->parseArgs($args);
         $options = $parsed['options'];
         $json = isset($options['json']);
         $watch = isset($options['watch']) || isset($options['w']);
-        $interval = (int)($options['interval'] ?? 2);
+        $interval = (int) ($options['interval'] ?? 2);
         $driver = $options['driver'] ?? null;
         try {
             $metrics = new RuntimeMetrics();
@@ -38,7 +40,8 @@ class RuntimeMetricsCommand extends Command {
         }
     }
 
-    private function displayMetrics(RuntimeMetrics $metrics, bool $json, ?string $driver = null, array $options = []): void {
+    private function displayMetrics(RuntimeMetrics $metrics, bool $json, ?string $driver = null, array $options = []): void
+    {
         $data = RuntimeState::snapshot($driver, $options);
         if ($json) {
             echo json_encode($data, JSON_PRETTY_PRINT) . "\n";
@@ -50,18 +53,21 @@ class RuntimeMetricsCommand extends Command {
         $this->output('Mode: ' . $data['runtime']['mode'] . ' | Degradation: ' . $data['runtime']['degradation_state']);
         $this->output('HTTP: running=' . ($data['server']['running'] ? 'yes' : 'no') . ' workers=' . $data['server']['workers_reporting'] . '/' . $data['server']['worker_count'] . ' requests=' . $data['server']['total_requests'] . ' active_connections=' . $data['server']['active_connections']);
         $this->output('Queue: depth=' . $data['queue']['depth'] . ' dlq=' . $data['queue']['dead_letters'] . ' workers=' . $data['queue']['workers']);
-        $this->output('Uptime: ' . gmdate('H:i:s', (int)max($data['uptime'], $data['server']['uptime'])));
+        $this->output('Uptime: ' . gmdate('H:i:s', (int) max($data['uptime'], $data['server']['uptime'])));
         $this->output('Memory: ' . $data['computed']['memory_usage_mb'] . ' MB peak=' . $data['computed']['memory_peak_mb'] . ' MB');
-        $this->output('CPU: ' . implode(', ', array_map(fn($v) => number_format((float)$v, 2), $data['system']['cpu_load'])));
+        $this->output('CPU: ' . implode(', ', array_map(fn($v) => number_format((float) $v, 2), $data['system']['cpu_load'])));
         $this->output('Loop lag: ' . $data['gauges']['loop_lag_ms'] . ' ms | Fibers: ' . $data['gauges']['active_fibers'] . ' | Timers: ' . $data['gauges']['active_timers']);
         $this->output('Throughput: ' . number_format($data['computed']['throughput'], 2) . '/s | Failed: ' . $data['counters']['jobs_failed'] . ' | Retries: ' . $data['counters']['jobs_retried']);
     }
 
-    private function watchMetrics(RuntimeMetrics $metrics, int $interval, bool $json, ?string $driver = null, array $options = []): void {
+    private function watchMetrics(RuntimeMetrics $metrics, int $interval, bool $json, ?string $driver = null, array $options = []): void
+    {
         while (true) {
-            if (!$json) echo "\033[2J\033[H";
+            if (!$json)
+                echo "\033[2J\033[H";
             $this->displayMetrics($metrics, $json, $driver, $options);
-            if (!$json) $this->output("Refreshing every {$interval}s... (Ctrl+C to stop)");
+            if (!$json)
+                $this->output("Refreshing every {$interval}s... (Ctrl+C to stop)");
             sleep($interval);
         }
     }

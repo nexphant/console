@@ -3,7 +3,7 @@
 /**
  * This file is part of the Nexph Framework.
  *
- * (c) Nexphlabs <https://github.com/nexphlabs>
+ * (c) nexphant <https://github.com/nexphant>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -12,11 +12,13 @@ namespace Nexph\Console;
 
 use Nexph\Runtime\Observability\RuntimeState;
 
-class RuntimeWorkersCommand extends Command {
+class RuntimeWorkersCommand extends Command
+{
     protected string $name = 'runtime:workers';
     protected string $description = 'Display runtime worker lifecycle status';
 
-    public function execute(array $args = []): int {
+    public function execute(array $args = []): int
+    {
         $parsed = $this->parseArgs($args);
         $state = RuntimeState::snapshot($parsed['options']['driver'] ?? null, $parsed['options']);
         $server = $state['server'];

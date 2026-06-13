@@ -3,7 +3,7 @@
 /**
  * This file is part of the Nexph Framework.
  *
- * (c) Nexphlabs <https://github.com/nexphlabs>
+ * (c) nexphant <https://github.com/nexphant>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -13,28 +13,32 @@ namespace Nexph\Console;
 /**
  * Help command.
  */
-class HelpCommand extends Command {
+class HelpCommand extends Command
+{
     protected string $name = 'help';
     protected string $description = 'Display help information';
-    
+
     private CommandRegistry $registry;
-    
-    public function __construct(CommandRegistry $registry) {
+
+    public function __construct(CommandRegistry $registry)
+    {
         $this->registry = $registry;
     }
-    
-    public function execute(array $args = []): int {
+
+    public function execute(array $args = []): int
+    {
         $parsed = $this->parseArgs($args);
         $commandName = $parsed['arguments'][0] ?? null;
-        
+
         if ($commandName) {
             return $this->showCommandHelp($commandName);
         }
-        
+
         return $this->showGeneralHelp();
     }
-    
-    private function showGeneralHelp(): int {
+
+    private function showGeneralHelp(): int
+    {
         $this->output("Nexph Runtime CLI");
         $this->output("");
         $this->output("Usage:");
@@ -42,10 +46,10 @@ class HelpCommand extends Command {
         $this->output("");
         $this->output("Available Commands:");
         $this->output("");
-        
+
         $commands = $this->registry->all();
         $groups = $this->groupCommands($commands);
-        
+
         foreach ($groups as $group => $cmds) {
             $this->output($group . ":");
             foreach ($cmds as $cmd) {
@@ -54,26 +58,27 @@ class HelpCommand extends Command {
             }
             $this->output("");
         }
-        
+
         $this->output("Run 'nexph help <command>' for more information on a command.");
-        
+
         return 0;
     }
-    
-    private function showCommandHelp(string $commandName): int {
+
+    private function showCommandHelp(string $commandName): int
+    {
         $command = $this->registry->get($commandName);
-        
+
         if ($command === null) {
             $this->error("Error: Unknown command '{$commandName}'");
             return 1;
         }
-        
+
         $this->output("Command: {$command->getName()}");
         $this->output("");
         $this->output("Description:");
         $this->output("  {$command->getDescription()}");
         $this->output("");
-        
+
         $options = $command->getOptions();
         if (!empty($options)) {
             $this->output("Options:");
@@ -83,21 +88,22 @@ class HelpCommand extends Command {
             }
             $this->output("");
         }
-        
+
         return 0;
     }
-    
-    private function groupCommands(array $commands): array {
+
+    private function groupCommands(array $commands): array
+    {
         $groups = [
             'Queue' => [],
             'Runtime' => [],
             'Schedule' => [],
             'Other' => [],
         ];
-        
+
         foreach ($commands as $command) {
             $name = $command->getName();
-            
+
             if (str_starts_with($name, 'queue:')) {
                 $groups['Queue'][] = $command;
             } elseif (str_starts_with($name, 'runtime:')) {
@@ -108,7 +114,7 @@ class HelpCommand extends Command {
                 $groups['Other'][] = $command;
             }
         }
-        
+
         return array_filter($groups);
     }
 }
