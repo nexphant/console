@@ -1,6 +1,6 @@
 {
     "name": "nexphant/console",
-    "description": "nexphant Console - CLI subsystem",
+    "description": "Nexphant Console - CLI subsystem",
     "type": "library",
     "license": "MIT",
     "autoload": {
