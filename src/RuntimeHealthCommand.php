@@ -1,17 +1,17 @@
 <?php
 
 /**
- * This file is part of the Nexph Framework.
+ * This file is part of the nexphant Framework.
  *
  * (c) nexphant <https://github.com/nexphant>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Nexph\Console;
+namespace nexphant\Console;
 
-use Nexph\Runtime\Observability\HealthMonitor;
-use Nexph\Runtime\Observability\RuntimeState;
+use nexphant\Runtime\Observability\HealthMonitor;
+use nexphant\Runtime\Observability\RuntimeState;
 
 class RuntimeHealthCommand extends Command
 {

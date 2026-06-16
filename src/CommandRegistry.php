@@ -1,14 +1,14 @@
 <?php
 
 /**
- * This file is part of the Nexph Framework.
+ * This file is part of the nexphant Framework.
  *
  * (c) nexphant <https://github.com/nexphant>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Nexph\Console;
+namespace nexphant\Console;
 
 /**
  * Runtime CLI command system.
@@ -56,7 +56,7 @@ class CommandRegistry
 
         if ($command === null) {
             fwrite(STDERR, "Error: Unknown command '{$name}'\n");
-            fwrite(STDERR, "Run 'nexph help' to see available commands\n");
+            fwrite(STDERR, "Run 'nexphant help' to see available commands\n");
             return 1;
         }
 

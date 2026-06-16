@@ -1,6 +1,6 @@
 <?php
 
-namespace Nexph\Console;
+namespace nexphant\Console;
 
 class Console
 {

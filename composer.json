@@ -1,17 +1,17 @@
 {
-    "name": "nexph/console",
-    "description": "Nexph Console - CLI subsystem",
+    "name": "nexphant/console",
+    "description": "nexphant Console - CLI subsystem",
     "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Nexph\\Console\\": "src/"
+            "nexphant\\Console\\": "src/"
         }
     },
     "require": {
         "php": "^8.1",
-        "nexph/framework": "^0.0",
-        "nexph/observability": "^0.0"
+        "nexphant/framework": "^0.0",
+        "nexphant/observability": "^0.0"
     },
     "minimum-stability": "dev",
     "prefer-stable": true

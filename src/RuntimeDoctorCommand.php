@@ -1,9 +1,9 @@
 <?php
 
-namespace Nexph\Console;
+namespace nexphant\Console;
 
-use Nexph\Support\Extension\ExtensionDetector;
-use Nexph\Runtime\EventLoop\EventLoopFactory;
+use nexphant\Support\Extension\ExtensionDetector;
+use nexphant\Runtime\EventLoop\EventLoopFactory;
 
 class RuntimeDoctorCommand extends Command
 {
@@ -13,7 +13,7 @@ class RuntimeDoctorCommand extends Command
     public function execute(array $args = []): int
     {
         echo "\n";
-        echo "Nexph Runtime Doctor\n";
+        echo "nexphant Runtime Doctor\n";
         echo str_repeat('=', 50) . "\n\n";
 
         echo "Core:\n";
@@ -47,7 +47,7 @@ class RuntimeDoctorCommand extends Command
         $loop = EventLoopFactory::create();
         echo "  Event Loop: " . $this->getShortClassName($loop) . "\n";
         
-        $socket = \Nexph\Server\Socket\SocketDriverFactory::create();
+        $socket = \nexphant\Server\Socket\SocketDriverFactory::create();
         echo "  Socket: " . $this->getShortClassName($socket) . "\n";
 
         $capabilities = ExtensionDetector::capabilities();

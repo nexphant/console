@@ -1,20 +1,20 @@
 <?php
 
 /**
- * This file is part of the Nexph Framework.
+ * This file is part of the nexphant Framework.
  *
  * (c) nexphant <https://github.com/nexphant>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Nexph\Console;
+namespace nexphant\Console;
 
-use Nexph\Queue\QueueFactory;
-use Nexph\Runtime\Observability\RuntimeMetrics;
-use Nexph\Runtime\Observability\HealthMonitor;
-use Nexph\Runtime\Observability\Dashboard;
-use Nexph\Runtime\Observability\Logger;
+use nexphant\Queue\QueueFactory;
+use nexphant\Runtime\Observability\RuntimeMetrics;
+use nexphant\Runtime\Observability\HealthMonitor;
+use nexphant\Runtime\Observability\Dashboard;
+use nexphant\Runtime\Observability\Logger;
 
 /**
  * Queue worker command.
@@ -123,11 +123,11 @@ class QueueWorkCommand extends Command
         $this->output("Starting worker with dashboard (blocking mode)...");
 
         if (class_exists('\\Fiber')) {
-            \Nexph\Runtime\Runtime::spawn(function () use ($dashboard) {
+            \nexphant\Runtime\Runtime::spawn(function () use ($dashboard) {
                 while (true) {
                     echo "\033[2J\033[H";
                     echo $dashboard->render();
-                    \Nexph\Runtime\Runtime::sleep(5);
+                    \nexphant\Runtime\Runtime::sleep(5);
                 }
             });
         }

@@ -1,11 +1,11 @@
-# Nexph Console
+# nexphant Console
 
-CLI subsystem for Nexph.
+CLI subsystem for nexphant.
 
 ## Installation
 
 ```bash
-composer require nexph/console
+composer require nexphant/console
 ```
 
 ## License

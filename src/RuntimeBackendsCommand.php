@@ -1,10 +1,10 @@
 <?php
 
-namespace Nexph\Console;
+namespace nexphant\Console;
 
-use Nexph\Runtime\EventLoop\EventLoopFactory;
-use Nexph\Server\Socket\SocketDriverFactory;
-use Nexph\Server\Socket\AcceptStrategy;
+use nexphant\Runtime\EventLoop\EventLoopFactory;
+use nexphant\Server\Socket\SocketDriverFactory;
+use nexphant\Server\Socket\AcceptStrategy;
 
 class RuntimeBackendsCommand extends Command
 {
@@ -14,7 +14,7 @@ class RuntimeBackendsCommand extends Command
     public function execute(array $args = []): int
     {
         echo "\n";
-        echo "Nexph Runtime Backends\n";
+        echo "nexphant Runtime Backends\n";
         echo str_repeat('=', 50) . "\n\n";
 
         $loop = EventLoopFactory::create();
@@ -26,8 +26,8 @@ class RuntimeBackendsCommand extends Command
         echo "Accept Strategy: " . AcceptStrategy::detect() . "\n";
 
         echo "\nEnvironment overrides:\n";
-        echo "  NEXPH_LOOP=" . (getenv('NEXPH_LOOP') ?: 'auto') . "\n";
-        echo "  NEXPH_SOCKET=" . (getenv('NEXPH_SOCKET') ?: 'auto') . "\n";
+        echo "  nexphant_LOOP=" . (getenv('nexphant_LOOP') ?: 'auto') . "\n";
+        echo "  nexphant_SOCKET=" . (getenv('nexphant_SOCKET') ?: 'auto') . "\n";
 
         echo "\n";
         return 0;
