@@ -1,8 +1,8 @@
 <?php
 
-namespace nexphant\Console;
+namespace Nexphant\Console;
 
-use nexphant\Runtime\AutoOptimize;
+use Nexphant\Runtime\AutoOptimize;
 
 class OptimizeClearCommand extends Command
 {

@@ -8,10 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace nexphant\Console;
+namespace Nexphant\Console;
 
-use nexphant\Runtime\Observability\HealthMonitor;
-use nexphant\Runtime\Observability\RuntimeState;
+use Nexphant\Runtime\Observability\HealthMonitor;
+use Nexphant\Runtime\Observability\RuntimeState;
 
 class RuntimeHealthCommand extends Command
 {

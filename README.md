@@ -1,4 +1,4 @@
-# nexphant Console
+# Nexphant Console
 
 CLI subsystem for nexphant.
 

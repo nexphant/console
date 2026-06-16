@@ -1,10 +1,10 @@
 <?php
 
-namespace nexphant\Console;
+namespace Nexphant\Console;
 
-use nexphant\Runtime\EventLoop\EventLoopFactory;
-use nexphant\Server\Socket\SocketDriverFactory;
-use nexphant\Server\Socket\AcceptStrategy;
+use Nexphant\Runtime\EventLoop\EventLoopFactory;
+use Nexphant\Server\Socket\SocketDriverFactory;
+use Nexphant\Server\Socket\AcceptStrategy;
 
 class RuntimeBackendsCommand extends Command
 {
@@ -26,8 +26,8 @@ class RuntimeBackendsCommand extends Command
         echo "Accept Strategy: " . AcceptStrategy::detect() . "\n";
 
         echo "\nEnvironment overrides:\n";
-        echo "  nexphant_LOOP=" . (getenv('nexphant_LOOP') ?: 'auto') . "\n";
-        echo "  nexphant_SOCKET=" . (getenv('nexphant_SOCKET') ?: 'auto') . "\n";
+        echo "  NEXPHANT_LOOP=" . (getenv('NEXPHANT_LOOP') ?: 'auto') . "\n";
+        echo "  NEXPHANT_SOCKET=" . (getenv('NEXPHANT_SOCKET') ?: 'auto') . "\n";
 
         echo "\n";
         return 0;

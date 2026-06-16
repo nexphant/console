@@ -8,13 +8,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace nexphant\Console;
+namespace Nexphant\Console;
 
-use nexphant\Queue\QueueFactory;
-use nexphant\Runtime\Observability\RuntimeMetrics;
-use nexphant\Runtime\Observability\HealthMonitor;
-use nexphant\Runtime\Observability\Dashboard;
-use nexphant\Runtime\Observability\Logger;
+use Nexphant\Queue\QueueFactory;
+use Nexphant\Runtime\Observability\RuntimeMetrics;
+use Nexphant\Runtime\Observability\HealthMonitor;
+use Nexphant\Runtime\Observability\Dashboard;
+use Nexphant\Runtime\Observability\Logger;
 
 /**
  * Queue worker command.
@@ -123,11 +123,11 @@ class QueueWorkCommand extends Command
         $this->output("Starting worker with dashboard (blocking mode)...");
 
         if (class_exists('\\Fiber')) {
-            \nexphant\Runtime\Runtime::spawn(function () use ($dashboard) {
+            \Nexphant\Runtime\Runtime::spawn(function () use ($dashboard) {
                 while (true) {
                     echo "\033[2J\033[H";
                     echo $dashboard->render();
-                    \nexphant\Runtime\Runtime::sleep(5);
+                    \Nexphant\Runtime\Runtime::sleep(5);
                 }
             });
         }

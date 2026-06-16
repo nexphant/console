@@ -1,8 +1,8 @@
 <?php
 
-namespace nexphant\Console;
+namespace Nexphant\Console;
 
-use nexphant\Runtime\OptimizeLoader;
+use Nexphant\Runtime\OptimizeLoader;
 
 class PreloadCommand extends Command
 {

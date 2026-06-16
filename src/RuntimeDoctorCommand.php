@@ -1,9 +1,9 @@
 <?php
 
-namespace nexphant\Console;
+namespace Nexphant\Console;
 
-use nexphant\Support\Extension\ExtensionDetector;
-use nexphant\Runtime\EventLoop\EventLoopFactory;
+use Nexphant\Support\Extension\ExtensionDetector;
+use Nexphant\Runtime\EventLoop\EventLoopFactory;
 
 class RuntimeDoctorCommand extends Command
 {
@@ -47,7 +47,7 @@ class RuntimeDoctorCommand extends Command
         $loop = EventLoopFactory::create();
         echo "  Event Loop: " . $this->getShortClassName($loop) . "\n";
         
-        $socket = \nexphant\Server\Socket\SocketDriverFactory::create();
+        $socket = \Nexphant\Server\Socket\SocketDriverFactory::create();
         echo "  Socket: " . $this->getShortClassName($socket) . "\n";
 
         $capabilities = ExtensionDetector::capabilities();

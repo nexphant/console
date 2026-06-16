@@ -1,9 +1,9 @@
 <?php
 
-namespace nexphant\Console;
+namespace Nexphant\Console;
 
-use nexphant\Runtime\OptimizeCompiler;
-use nexphant\Runtime\OptimizeManifest;
+use Nexphant\Runtime\OptimizeCompiler;
+use Nexphant\Runtime\OptimizeManifest;
 
 class OptimizeCommand extends Command
 {
