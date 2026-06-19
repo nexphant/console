@@ -132,7 +132,7 @@ class RuntimeStopCommand extends Command
 
     private function isLiveProcess(int $pid): bool
     {
-        if ($pid <= 1 || !posix_kill($pid, 0)) {
+        if ($pid <= 1 || $pid !== (int) $pid || !posix_kill($pid, 0)) {
             return false;
         }
         $statusFile = "/proc/{$pid}/status";
