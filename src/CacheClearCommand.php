@@ -11,36 +11,35 @@
 namespace Nexphant\Console;
 
 /**
- * optimize — clear compiled caches and warm up
+ * cache:clear — clear all application caches
  */
-class OptimizeCommand extends Command
+class CacheClearCommand extends Command
 {
-    protected string $name        = 'optimize';
-    protected string $description = 'Clear caches and warm up the framework';
+    protected string $name        = 'cache:clear';
+    protected string $description = 'Clear all application caches';
 
     public function execute(array $args = []): int
     {
         $base = defined('NEXPHANT_BASE_PATH') ? NEXPHANT_BASE_PATH : getcwd();
-
         $dirs = [
-            $base . '/storage/framework/views',
             $base . '/storage/framework/cache',
-            $base . '/storage/framework/sessions',
+            $base . '/storage/metadata',
         ];
 
+        $total = 0;
         foreach ($dirs as $dir) {
             if (!is_dir($dir)) continue;
-            $count = 0;
             foreach (glob($dir . '/*') ?: [] as $file) {
-                if (is_file($file)) {
-                    unlink($file);
-                    $count++;
-                }
+                if (is_file($file)) { unlink($file); $total++; }
             }
-            $this->output("Cleared {$count} files from: {$dir}");
         }
 
-        $this->output('Optimization complete.');
+        // Clear APCu if available
+        if (function_exists('apcu_clear_cache')) {
+            apcu_clear_cache();
+        }
+
+        $this->output("Cache cleared. ({$total} files removed)");
         return 0;
     }
 }
